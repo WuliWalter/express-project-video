@@ -8,18 +8,16 @@ module.exports.vertifyToken = async (req,res,next) =>{
   let token =req.headers.authorization
   token = token? token.split("Bearer ")[1]:null
   if(!token){
-    res.status(402).json({error:'请传入token'})
-    return
+    return res.status(402).json({error:'请传入token'})
+    
   }
   try{
     let userinfo = await vertify(token,uuid)
     req.user = userinfo
     next()
   }catch(error){
-    res.status('402').json({error:'无效的token'})
-    return
+    return res.status('402').json({error:'无效的token'})
   }
-  next()
 }
 
 module.exports.createToken = async (userinfo) => {

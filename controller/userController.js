@@ -25,13 +25,19 @@ exports.login = async (req,res) =>{
   dbBack.token = await createToken(dbBack)
 
   res.status(200).json(dbBack)
-
-
 }
 
 exports.list =async (req,res) => {
   console.log(req.method)
   res.send('/video-list')
+}
+
+// 用户修改
+exports.update = async (req,res) => {
+  // res.send(req.user.userinfo._id)
+  let id = req.user.userinfo._id
+  let dbBack = await User.findByIdAndUpdate(id,req.body,{new:true})
+  res.status(202).json({user:dbBack})
 }
 
 exports.delete = async (req,res) => {
