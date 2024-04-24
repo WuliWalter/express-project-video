@@ -1,5 +1,8 @@
 const {User} = require('../model/index')
 const {createToken} = require('../util/jwt')
+const fs = require('fs')
+const { promisify }  = require('util')
+const rename = promisify(fs.rename)
 
 // 用户注册
 exports.register = async (req,res) => {
@@ -40,6 +43,21 @@ exports.update = async (req,res) => {
   res.status(202).json({user:dbBack})
 }
 
+// 用户头像上传
+exports.headimg = async (req,res) => {
+  console.log(req.file);
+  const filetype = req.file.originalname.split('.').pop()
+  try {
+    await rename(
+      `./public/${req.file.filename}`,
+      `./public/${req.file.filename}.${filetype}`
+    )
+    res.status(201).json({filepath:`${req.file.filename}.${filetype}`})
+  } catch (error) {
+    res.status(500).json({error:error})
+  }
+
+}
 exports.delete = async (req,res) => {
   res.send('delete')
 }

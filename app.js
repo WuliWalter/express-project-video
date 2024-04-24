@@ -6,6 +6,8 @@ const router = require('./router')
 
 const app = express()
 
+// 处理静态资源
+app.use(express.static('public'))
 
 // 格式解析中间件
 app.use(express.json())
